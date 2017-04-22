@@ -1,0 +1,144 @@
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <title>where2or3.com</title>
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+  <link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Droid+Sans:700' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false" charset="utf-8"></script>  
+  <script type="text/javascript">
+    window.onload=function(){
+        var latlng = new google.maps.LatLng(39.563371, 126.031760);  
+        var mapOptions = {  
+            zoom: 16,
+            zoomControl: true,
+            panControl:false,
+            streetViewControl:false,
+            mapTypeControl: false,
+            mapTypeId: google.maps.MapTypeId.SATELLITE,  
+            center: latlng  
+        };  
+
+        var gmap = new google.maps.Map(document.getElementById("map"), mapOptions);  
+    }
+  </script>  
+</head>
+
+<body>
+
+<header class="header">
+  <div class="jumbotron" id="map"></div>
+  <a id="header-title" href="http://anachanpapa.meteor.com">where2or3.com</a>
+  <div id="header-container1">
+    <div class="hc1t">Pray together for persecuted Christians</div>
+    <div class="hc1c">“Again I say to you that if two of you agree on earth concerning anything that they ask, it will be done for them by My Father in heaven. For where two or three are gathered together in My name, I am there in the midst of them." &nbsp;<span style="color:#ccc; text-decoration: underline;">Matthew 18:19,20</span></div>
+  </div>
+  <div id="header-container2">
+    <div class="hc2c">
+      This place is one of the concentration camps in North Korea. Today in North Korea, an estimated 30,000 of our brothers and sisters are suffering unspeakable tortures in four concentration camps.<a id="NorthKorea" href="http://www.persecution.com/public/media.aspx?mediapage_ID=%3d363437">more &raquo;</a>
+    </div>
+  </div>
+</header>
+
+<!-- Modal -->
+<div id="first-open" class="modal fade"> 
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  <!-- close button -->
+                <h4 class="modal-title-open">How to open the Prayer Group</h4>
+            </div>
+            <div class="modal-body">
+              <ol>
+                <li>click the "Open the Prayer Group" button.</li>
+                <li>Sign in to Google. (if you have not signed in to Google yet)</li>
+                <li>Install the Hangouts plugin. (only the first time)</li>
+                <li>In the invitation popup click the "Close" button.</li>
+                <li>Start praying for brothers and sisters and wait for other prayer partners to join in.</li>
+              </ol>
+              <p>* When you finish praying, just close the Hangouts page.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="first-join" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  <!-- close button -->
+                <h4 class="modal-title-join">How to join in the Prayer Group</h4>
+            </div>
+            <div class="modal-body">
+              <ol>
+                <li>click the "Join in the Prayer Group" button</li>
+                <li>Sign in to Google. (if you have not signed in to Google yet)</li>
+                <li>Install the Hangouts plugin. (only the first time)</li>
+                <li>Click the "Join" button.</li>
+                <li>Start praying for brothers and sisters with other prayer partners.</li>
+              </ol>
+              <p>* When you finish praying, just close the Hangouts page.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="container-fluid container-max">
+    {{> Posts}}
+</div>  
+
+</body>
+
+<template name="Posts">
+  <div class="Posts">
+  <!--div id="oneValue" style="">oneValue:{{oneValue}}</div-->
+    {{#each posts}}
+      {{> post}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="post">
+  <div id="prayer_{{prayerID}}" class="post">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 date">{{date}} | {{country}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 title">{{title}}</div>
+    </div>
+    <div class="row">  
+      <div class="col-lg-4 col-md-4 col-sm-4 picture">
+        <img src="{{imgUrl}}">
+        <div class="shortDesc">{{shortDesc}}</div>
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="longDesc">{{longDesc}}</div>
+        <!-- div class="circle"><a href="{{hurl}}" target=_blank>{{circle}}</a></div -->
+        <div class="members">
+          <img class="member1" src="{{member1}}">
+          <img class="member2" src="{{member2}}">
+          <img class="member3" src="{{member3}}">
+          <img class="member4" src="{{member4}}">
+          <img class="member5" src="{{member5}}">
+          <img class="member6" src="{{member6}}">
+          <img class="member7" src="{{member7}}">
+          <img class="member8" src="{{member8}}">
+          <img class="member9" src="{{member9}}">
+          <img class="member10" src="{{member10}}">     
+        </div>
+        <div>
+          <button class="btn {{btnClass}} circle" onclick="window.open('{{hurl}}','_blank')">{{circle}}</button>
+          <a class="firstTime" href="#first-{{OpenOrJoin}}" role="button" data-toggle="modal">First Time?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+

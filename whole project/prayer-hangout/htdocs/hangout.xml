@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Sample Hangout App">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+   <![CDATA[
+      <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+      <!-- Your application code -->
+<html>
+
+<style>
+	html{font-size:10px;}
+
+	@media screen and (min-width : 768px){
+		html{ font-size : 6px;} 
+	}
+	 
+	@media screen and (min-width : 1024px) {
+		html{ font-size : 7px;}
+	}
+
+	@media screen and (min-width : 1100px) {
+		html{ font-size : 8px;}
+	}
+	
+	@media screen and (min-width : 1280px) {
+		html{ font-size : 8.5px;} 
+	}
+
+	@media screen and (min-width : 1366px) {
+		html{ font-size : 9px;}
+	}
+
+	@media screen and (min-width : 1600px) {
+		html{ font-size : 9.5px;}
+	}
+
+  body { position:absolute; left:0px; top:0px; width:100%; height:100%; }
+  #wrap { width:100%; height:100%; overflow:auto }
+</style>
+
+<!-- script type="application/javascript" src="//hangoutsapi.talkgadget.google.com/hangouts/_/api/hangout.js?v=1.2"></script -->
+<!-- script type="application/javascript" src="//talkgadget.google.com/hangouts/_/api/hangout.js?v=1.1"></script -->
+<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
+<body>
+<div id="wrap">
+  <div id="tmp"></div>
+  <div id="prayer" style="padding: 10px 20px 10px 20px;">
+    <div style="float:left; width:28%;">
+      <div id="date-country" style="margin:0 0 5px 10px; font-size:1.8rem; color:#555;"></div>
+      <div id="picture"></div>
+    </div>
+    <div id="desc" style="float:right; width:70%;">
+      <div style="margin-bottom:15px; color:#ececec; background:#3D0000; font-size:2.0rem; line-height:2.4rem; padding:10px 10px 10px 15px;"> “Again I say to you that if two of you agree on earth concerning anything that they ask, it will be done for them by My Father in heaven. For where two or three are gathered together in My name, I am there in the midst of them." &nbsp;<span style="color:#aaa; text-decoration: underline;">Matthew 18:19,20</span></div>
+      <div id="title" style="margin-bottom:10px; font-size:2.6rem; color:#333;"></div>
+      <div id="longDesc" style="font-size:2.0rem; line-height:2.6rem; margin-bottom:2.6rem; color:#555;"></div>
+      <div id="shortDesc" style="font-size:1.8rem; color:#333; padding: 5px 0 5px 0;"></div>
+    </div>
+  </div>
+</div>  
+</body>
+
+<script>
+function result(data){
+  //alert("result:" + data);
+  var pstr = data.split("$$$");
+  var date = pstr[1];
+  var country = pstr[2];
+  var imgUrl = pstr[3];
+  var title = pstr[4];
+  var shortDesc = pstr[5]; 
+  var longDesc = pstr[6];
+
+  $("#date-country").text(date + " | " + country);  
+  $("#title").text(title);
+  $("#picture").html('<img src="' + imgUrl + '" width="100%">');
+  $("#longDesc").text(longDesc);
+  $("#shortDesc").text(shortDesc);
+  $("#shortDesc").css("border-top","solid 1px #aaa");
+  $("#shortDesc").css("border-bottom","solid 1px #aaa");
+}
+</script>
+
+<script>
+var url = "" ;
+var path= "" ;
+gapi.hangout.onApiReady.add(function(e) {
+  gapi.hangout.layout.setChatPaneVisible(true);
+  url = gapi.hangout.getHangoutUrl();
+  var pid = "";
+  if (e.isApiReady) {
+      var appdata  = gadgets.views.getParams()['appData'];
+      if ( appdata ) {
+          var json = $.parseJSON(appdata);
+          pid = json.pid;
+      }
+  } 
+  
+  function updateParticipants(participants) {
+	  var imgUrls = "";
+	  $.each(participants, function() {
+		if(this.person && this.person.image.url)
+		  if(imgUrls == ""){
+			imgUrls = this.person.image.url;
+		  } else {
+			imgUrls = imgUrls + "(((" + this.person.image.url;
+		  }
+	  });
+	  imgUrls =  encodeURIComponent(imgUrls);
+	  return imgUrls;
+  }
+  
+  url.match(/\/([^\/]+)$/);
+  var uid = RegExp.$1;
+  var imgUrls = updateParticipants(gapi.hangout.getParticipants());
+  var triple = uid + "!!!" + pid + "!!!" + imgUrls;
+  //var triple = uid + "!!!" + pid;
+  //$("#tmp").text(imgUrls);
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  //script.src = "https://localhost:3000/api/get_post/" + triple;
+  script.src = "https://anachanpapa.meteor.com/api/get_post/" + triple;
+  var firstScript = document.getElementsByTagName( 'script' )[ 0 ];
+  firstScript.parentNode.insertBefore( script, firstScript );
+  //alert(pair); 
+  function tell_alive(){
+	var imgUrls2 = updateParticipants(gapi.hangout.getParticipants());
+    var pair = pid + "!!!" + imgUrls2;
+	//var pair = pid;
+	var p = "https://anachanpapa.meteor.com/api/check_alive/" + pair;
+    //var p = "https://localhost:3000/api/check_alive/" + pair;
+    jQuery.getJSON(p);
+    //alert(p);
+  }
+  setInterval(tell_alive, 5000);
+  
+});
+
+</script>
+    
+    ]]>
+  </Content>
+</Module>
